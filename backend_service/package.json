@@ -14,7 +14,10 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@azure/storage-blob": "^12.26.0",
     "axios": "^1.8.3",
-    "dotenv": "^16.4.7"
+    "dotenv": "^16.4.7",
+    "microsoft-cognitiveservices-speech-sdk": "^1.42.0",
+    "node-fetch": "^3.3.2"
   }
 }
