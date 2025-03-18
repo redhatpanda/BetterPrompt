@@ -1,0 +1,11 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "FUNCTIONS_WORKER_RUNTIME": "node",
+    "AzureWebJobsStorage": "",
+    "OPENAI_ENDPOINT": "https://cl-open-ai.openai.azure.com/openai/deployments/gpt-4o/chat/completions?api-version=2024-02-15-preview",
+    "OPENAI_API_KEY": "8BrfzXTFRA9tjayj30xkmJzyggkkhLNOhoMaKXC9qEa91XN5UXbGJQQJ99BCACHYHv6XJ3w3AAABACOGx81Q",
+    "CONTENT_SAFETY_ENDPOINT": "https://cl-content-safety.cognitiveservices.azure.com/",
+    "CONTENT_SAFETY_API_KEY": "E47dQLI7JWIGrruVALlq5PtJ2T1stnzyhKSyalBuLGMEelUmOLYSJQQJ99BCACHYHv6XJ3w3AAAHACOGcb5f"
+  }
+}

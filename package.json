@@ -1,0 +1,20 @@
+{
+  "name": "betterprompt",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "func start",
+    "test": "echo \"No tests yet...\""
+  },
+  "devDependencies": {
+    "azure-functions-core-tools": "^4.x"
+  },
+  "main": "index.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "axios": "^1.8.3",
+    "dotenv": "^16.4.7"
+  }
+}
