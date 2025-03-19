@@ -70,7 +70,7 @@ module.exports = async function (context, req) {
             .filter((cat) => cat.severity > 1)
             .map((cat) => cat.category);
 
-        let rephraseInstruction = "Ensure this prompt is clear, specific, and well-defined.";
+        let rephraseInstruction = "Ensure this prompt is clear, specific, and well-defined. Just return the final versions of the revised prompt, and nothing else.";
         if (flaggedCategories.length > 0) {
             rephraseInstruction += " Remove any NSFW, biased, racist, or inappropriate content while keeping the meaning intact.";
         }
