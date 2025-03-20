@@ -1,5 +1,5 @@
 {
-  "name": "betterprompt",
+  "name": "backend_service",
   "version": "1.0.0",
   "scripts": {
     "start": "func start",

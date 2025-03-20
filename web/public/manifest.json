@@ -1,0 +1,29 @@
+{
+  "manifest_version": 3,
+  "name": "BetterPrompt",
+  "version": "1.0",
+  "description": "Enhance your prompts with AI-powered suggestions.",
+  "permissions": ["scripting", "activeTab", "storage"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "host_permissions": ["<all_urls>"],
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["inject.js", "FloatingButton.js", "Sidebar.js", "client-*.js"],
+      "matches": ["<all_urls>"],
+      "extension_ids": []
+    }
+  ],
+  "action": {
+    "default_popup": "index.html",
+    "default_icon": "vite.svg"
+  }
+}
