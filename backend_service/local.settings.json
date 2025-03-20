@@ -3,6 +3,7 @@
   "Values": {
     "FUNCTIONS_WORKER_RUNTIME": "node",
     "AzureWebJobsStorage": "",
+    "CORS_ALLOWED_ORIGINS": "http://localhost:5173",
     "OPENAI_ENDPOINT": "https://cl-open-ai.openai.azure.com",
     "OPENAI_API_KEY": "8BrfzXTFRA9tjayj30xkmJzyggkkhLNOhoMaKXC9qEa91XN5UXbGJQQJ99BCACHYHv6XJ3w3AAABACOGx81Q",
     "CONTENT_SAFETY_ENDPOINT": "https://cl-content-safety.cognitiveservices.azure.com/",
@@ -11,5 +12,10 @@
     "AZURE_TEXT_ANALYTICS_API_KEY": "3qcSc5LrXG3YDxyAoRnYqqmrbauH9F4MTVbGvdStMz0d3smGvFRsJQQJ99BCACYeBjFXJ3w3AAAaACOGP9wI",
     "AZURE_TRANSLATOR_ENDPOINT": "https://cl-translator-0.cognitiveservices.azure.com/",
     "AZURE_TRANSLATOR_API_KEY": "BHxMNwxWyd3oEPkruyMhPeHplUN30Sq8w17Rw9OYAoWNCmieXB0wJQQJ99BCACHYHv6XJ3w3AAAbACOGNv78"
+  },
+  "Host": {
+    "LocalHttpPort": 7071,
+    "CORS": "*"
   }
+
 }

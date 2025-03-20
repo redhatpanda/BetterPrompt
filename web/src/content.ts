@@ -1,68 +1,27 @@
 console.log("✅ Content script loaded!");
-const button = document.createElement("button");
-button.innerText = "📜 Open Sidebar";
-button.style.position = "fixed";
-button.style.bottom = "20px";
-button.style.right = "20px";
-button.style.zIndex = "100000";
-button.style.padding = "10px 20px";
-button.style.background = "#1976D2";
-button.style.color = "#fff";
-button.style.border = "none";
-button.style.borderRadius = "5px";
-button.style.cursor = "pointer";
-button.style.boxShadow = "0px 4px 6px rgba(0,0,0,0.1)";
-document.body.appendChild(button);
-const sidebar = document.createElement("div");
-sidebar.id = "custom-sidebar";
-sidebar.style.position = "fixed";
-sidebar.style.top = "0";
-sidebar.style.right = "-300px"; // Initially hidden
-sidebar.style.width = "300px";
-sidebar.style.height = "100vh";
-sidebar.style.background = "#f9f9f9";
-sidebar.style.boxShadow = "0px 0px 10px rgba(0,0,0,0.2)";
-sidebar.style.transition = "right 0.3s ease-in-out";
-sidebar.style.padding = "15px";
-sidebar.style.overflowY = "auto";
-sidebar.style.zIndex = "1000000";
 
-// ✅ Sidebar Header with Close Button
-const header = document.createElement("div");
-header.style.display = "flex";
-header.style.justifyContent = "space-between";
-header.style.alignItems = "center";
-header.style.paddingBottom = "10px";
-header.innerHTML = `
-  <h3 style="margin: 0; color: #333;">Captured Text</h3>
-  <button id="close-sidebar" style="background: none; border: none; font-size: 18px; cursor: pointer;">❌</button>
-`;
-sidebar.appendChild(header);
+// ✅ Inject `inject.js` to load React UI
+function injectReactScript() {
+  if (document.getElementById("better-prompt-script")) {
+    console.warn("⚠️ React script already injected!");
+    return;
+  }
 
-// ✅ Text Area for Backend Response
-const textArea = document.createElement("textarea");
-textArea.id = "captured-text";
-textArea.style.width = "100%";
-textArea.style.height = "calc(100% - 40px)";
-textArea.style.padding = "10px";
-textArea.style.border = "1px solid #ccc";
-textArea.style.borderRadius = "5px";
-textArea.style.resize = "none";
-sidebar.appendChild(textArea);
+  console.log("🚀 Injecting React components...");
 
-// ✅ Append Sidebar to Body
-document.body.appendChild(sidebar);
+  const script = document.createElement("script");
+  script.id = "better-prompt-script";
+  script.src = chrome.runtime.getURL("inject.js"); // ✅ Inject compiled React script
+  script.type = "module";
+  script.onload = () => console.log("✅ Injected React script!");
 
-// ✅ Open Sidebar on Button Click
-button.addEventListener("click", () => {
-  sidebar.style.right = "0";
-});
+  document.body.appendChild(script);
+}
 
-// ✅ Close Sidebar on Click
-document.getElementById("close-sidebar")?.addEventListener("click", () => {
-  sidebar.style.right = "-300px";
-});
-// ✅ Input detection & message passing
+// ✅ Run function on page load
+injectReactScript();
+
+// ✅ Input detection & message passing (Preserved from original content.ts)
 function handleInput(event: Event) {
   const target = event.target as HTMLInputElement | HTMLTextAreaElement;
   if (target && (target.tagName === "INPUT" || target.tagName === "TEXTAREA")) {
@@ -71,21 +30,14 @@ function handleInput(event: Event) {
     // Send text to background script
     chrome.runtime.sendMessage({ type: "TEXT_INPUT", text: target.value }, (response) => {
       console.log("📩 Response from background:", response);
-      if (response && response.text) {
-        textArea.value = response.text;
-      } else {
-        textArea.value = "⚠️ No response received.";
-      }
- 
     });
-    
   }
 }
 
 // ✅ Attach input event listener
 document.addEventListener("input", handleInput, true);
 
-// ✅ Observe Shadow DOM for dynamically added elements
+// ✅ Observe Shadow DOM for dynamically added elements (Preserved from original content.ts)
 function observeShadowDOM(root: Document | ShadowRoot) {
   const observer = new MutationObserver((mutations) => {
     for (const mutation of mutations) {

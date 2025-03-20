@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "Text Detector Extension",
+  "name": "BetterPrompt",
   "version": "1.0",
-  "description": "Detects and processes text from input fields in the browser.",
+  "description": "Enhance your prompts with AI-powered suggestions.",
   "permissions": ["scripting", "activeTab", "storage"],
   "background": {
     "service_worker": "background.js"
@@ -17,8 +17,9 @@
   ],
   "web_accessible_resources": [
     {
-      "resources": ["injected.js"],
-      "matches": ["<all_urls>"]
+      "resources": ["inject.js", "FloatingButton.js", "Sidebar.js", "client-*.js"],
+      "matches": ["<all_urls>"],
+      "extension_ids": []
     }
   ],
   "action": {
