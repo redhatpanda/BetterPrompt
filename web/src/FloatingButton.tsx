@@ -7,10 +7,11 @@ import Sidebar from "./sidebar";
 import { motion } from "framer-motion";
 
 interface FloatingButtonProps {
-  textArea: HTMLTextAreaElement;
+  textArea: HTMLTextAreaElement | HTMLElement;
+  getContentEditableText?: (el: HTMLElement) => string;
 }
 
-const FloatingButton: React.FC<FloatingButtonProps> = ({ textArea }) => {
+const FloatingButton: React.FC<FloatingButtonProps> = ({ textArea, getContentEditableText }) => {
   const [open, setOpen] = useState(false);
   const [text, setText] = useState("");
   const [isTyping, setIsTyping] = useState(false);
@@ -40,7 +41,11 @@ const FloatingButton: React.FC<FloatingButtonProps> = ({ textArea }) => {
   }, [textArea]);
 
   const handleOpen = () => {
-    setText(textArea.value);
+    const extractedText = getContentEditableText
+      ? getContentEditableText(textArea as HTMLElement)
+      : (textArea as HTMLTextAreaElement).value;
+
+    setText(extractedText);
     setOpen(true);
   };
 
