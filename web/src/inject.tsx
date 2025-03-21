@@ -11,7 +11,6 @@ function injectUI() {
     return;
   }
 
-  console.log("Before Filter", textAreas);
 
   if (textAreas.length > 1) {
     const hasTextarea = textAreas.some((el) => el.tagName.toLowerCase() === "textarea");
@@ -23,8 +22,6 @@ function injectUI() {
       textAreas = textAreas.filter((el) => el.tagName.toLowerCase() !== "textarea");
     }
   }
-
-  console.log("After Filter", textAreas);
 
   textAreas.forEach((textArea) => {
     if (!textArea.parentElement) return;

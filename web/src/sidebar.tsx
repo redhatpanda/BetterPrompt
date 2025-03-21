@@ -11,7 +11,6 @@ import CloseIcon from "@mui/icons-material/Close";
 import AutoFixHighIcon from "@mui/icons-material/AutoFixHigh";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import { motion } from "framer-motion";
-//import axios from "axios";
 import Microphone from "./Microphone";
 
 interface SidebarProps {
@@ -26,9 +25,8 @@ const Sidebar: React.FC<SidebarProps> = ({ open, onClose, text, textArea }) => {
   const [loading, setLoading] = useState(false);
   const [inputText, setInputText] = useState(text);
   const [transcript, setTranscript] = useState<string | null>(null);
-  const [isFinal, setIsFinal] = useState(false);
-  //const [inputFinal, setInputFinal] = useState("");
-  console.log(transcript, isFinal);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [_isFinal, setIsFinal] = useState(false);
 
   useEffect(() => {
     setInputText(text);
@@ -44,10 +42,10 @@ const Sidebar: React.FC<SidebarProps> = ({ open, onClose, text, textArea }) => {
       return;
     }
   
-    // Communicate with the content script
+   
     window.postMessage({ type: "FETCH_PROMPTS", prompt: finalInput }, "*");
   
-    // Listen for the response
+  
     const handleResponse = (event: MessageEvent) => {
       if (event.data.type === "PROMPT_RESPONSE") {
         setSuggestions(event.data.data.suggestions || []);

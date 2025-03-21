@@ -6,7 +6,6 @@ function injectReactScript() {
     return;
   }
 
-  console.log("Injecting React components...");
 
   const script = document.createElement("script");
   script.id = "better-prompt-script";
@@ -22,7 +21,6 @@ injectReactScript();
 function handleInput(event: Event) {
   const target = event.target as HTMLInputElement | HTMLTextAreaElement;
   if (target && (target.tagName === "INPUT" || target.tagName === "TEXTAREA")) {
-    console.log("📝 Detected input:", target.value);
 
     chrome.runtime.sendMessage({ type: "TEXT_INPUT", text: target.value }, (response) => {
       console.log("📩 Response from background:", response);
@@ -55,7 +53,7 @@ window.addEventListener("message", (event) => {
 
   console.log("Content script received prompt:", event.data.prompt);
 
-  // Forward the message to the background script
+  
   chrome.runtime.sendMessage(
     { action: "fetchRephrasedPrompts", prompt: event.data.prompt },
     (response) => {
@@ -64,7 +62,7 @@ window.addEventListener("message", (event) => {
       } else {
         console.log("Content script received response:", response);
 
-        // Send response back to Sidebar.tsx
+        
         window.postMessage({ type: "PROMPT_RESPONSE", data: response }, "*");
       }
     }

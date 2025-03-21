@@ -1,7 +1,7 @@
 const sdk = require('microsoft-cognitiveservices-speech-sdk');
 
 module.exports = async function (context, req) {
-    // Handle CORS preflight requests (OPTIONS)
+   
     if (req.method === 'OPTIONS') {
         context.res = {
             status: 200,
@@ -18,7 +18,7 @@ module.exports = async function (context, req) {
     const speechKey = process.env.AZURE_SPEECH_KEY;
     const speechRegion = process.env.AZURE_SPEECH_REGION;
 
-    // Handle missing speech key or region
+  
     if (!speechKey || !speechRegion) {
         context.res = {
             status: 500,

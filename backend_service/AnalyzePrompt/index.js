@@ -1,14 +1,14 @@
 const axios = require("axios");
 
 module.exports = async function (context, req) {
-    // ✅ Log incoming request method
+   
     context.log("🔹 Received request:", req.method);
 
-    // ✅ Handle CORS Preflight (OPTIONS Request)
+    
     if (req.method === "OPTIONS") {
         context.log("🔹 Handling OPTIONS preflight request.");
         context.res = {
-            status: 204, // No content response
+            status: 204, 
             headers: {
                 "Access-Control-Allow-Origin": "*",
                 "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
@@ -18,7 +18,7 @@ module.exports = async function (context, req) {
         return;
     }
 
-    // ✅ Default CORS Headers for every response
+  
     const corsHeaders = {
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",
@@ -26,7 +26,7 @@ module.exports = async function (context, req) {
         "Access-Control-Allow-Headers": "Content-Type, Authorization"
     };
 
-    // ✅ Check if the request has a body
+    
     if (!req.body) {
         context.log("❌ Request body is missing!");
         context.res = { status: 400, body: { error: "Request body is missing!" }, headers: corsHeaders };
@@ -44,7 +44,7 @@ module.exports = async function (context, req) {
     }
 
     try {
-        // Step 1: Detect Language Using OpenAI
+        
         const languageResponse = await axios.post(
             `${process.env.OPENAI_ENDPOINT}/openai/deployments/gpt-4o/chat/completions?api-version=2024-02-15-preview`,
             {
@@ -61,7 +61,7 @@ module.exports = async function (context, req) {
         const detectedLanguage = languageResponse.data.choices[0].message.content.trim();
         let translatedPrompt = prompt;
 
-        // Step 2: Translate Non-English Text to English
+      
         if (detectedLanguage !== "English") {
             const translationResponse = await axios.post(
                 `${process.env.OPENAI_ENDPOINT}/openai/deployments/gpt-4o/chat/completions?api-version=2024-02-15-preview`,
@@ -79,7 +79,7 @@ module.exports = async function (context, req) {
             translatedPrompt = translationResponse.data.choices[0].message.content.trim();
         }
 
-        // Step 3: Clarify Ambiguous Prompt
+     
         const contextAnalysisResponse = await axios.post(
             `${process.env.OPENAI_ENDPOINT}/openai/deployments/gpt-4o/chat/completions?api-version=2024-02-15-preview`,
             {
@@ -94,7 +94,7 @@ module.exports = async function (context, req) {
         );
         const clarifiedPrompt = contextAnalysisResponse.data.choices[0].message.content.trim();
 
-        // Step 4: Run Content Safety Check
+       
         const moderationResponse = await axios.post(
             `${process.env.CONTENT_SAFETY_ENDPOINT}/contentsafety/text:analyze?api-version=2023-10-01`,
             { text: clarifiedPrompt, categories: ["Hate", "Sexual", "Violence", "SelfHarm"] },
@@ -147,7 +147,7 @@ module.exports = async function (context, req) {
             };
         }
 
-        // Step 6: Return Final Processed Prompt
+       
         context.res = {
             status: 200,
             body: jsonResponse,

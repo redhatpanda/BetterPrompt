@@ -5,19 +5,19 @@ import react from "@vitejs/plugin-react";
 export default defineConfig({
   plugins: [react()],
   build: {
-    outDir: "dist", // Output directory for Chrome extension
+    outDir: "dist", 
     emptyOutDir: true,
     rollupOptions: {
       input: {
-        index: "index.html", // React UI (Popup)
-        background: "src/background.ts", // Background script
+        index: "index.html", 
+        background: "src/background.ts", 
         content: "src/content.ts",
-        inject:"src/inject.tsx" // Content script
+        inject:"src/inject.tsx" 
       },
       output: {
-        format: "esm", // Use "esm" for Chrome Extension compatibility
-        entryFileNames: "[name].js", // Ensures correct file names
-        chunkFileNames: "[name]-[hash].js", // Avoids Rollup conflicts
+        format: "esm", 
+        entryFileNames: "[name].js", 
+        chunkFileNames: "[name]-[hash].js",
         assetFileNames: "[name].[ext]"
       }
     }
