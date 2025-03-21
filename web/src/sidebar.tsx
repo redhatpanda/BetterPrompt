@@ -10,7 +10,7 @@ interface SidebarProps {
   open: boolean;
   onClose: () => void;
   text: string;
-  textArea: HTMLTextAreaElement;
+  textArea: HTMLTextAreaElement | HTMLElement;
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ open, onClose, text, textArea }) => {
@@ -25,7 +25,7 @@ const Sidebar: React.FC<SidebarProps> = ({ open, onClose, text, textArea }) => {
   const fetchRephrasedPrompts = async () => {
     setLoading(true);
     try {
-      const response = await axios.post("http://localhost:7071/api/AnalyzePrompt", {
+      const response = await axios.post("https://cl-ai-app.azurewebsites.net/api/AnalyzePrompt?code=Y9Fo-pIcqw-3iEcSwr1PnJNw1-z76J_1QOqqcDc7FyvdAzFunAj4Vw==", {
         prompt: inputText,
       });
       setSuggestions([
@@ -40,8 +40,12 @@ const Sidebar: React.FC<SidebarProps> = ({ open, onClose, text, textArea }) => {
   };
 
   const handleUsePrompt = (prompt: string) => {
-    if (textArea) {
+    if (!textArea) return;
+    
+    if (textArea instanceof HTMLTextAreaElement) {
       textArea.value = prompt;
+    } else {
+      textArea.innerText = prompt;
     }
   };
 

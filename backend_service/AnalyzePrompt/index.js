@@ -1,10 +1,35 @@
 const axios = require("axios");
 
 module.exports = async function (context, req) {
-    const prompt = req.body.prompt;
+    // Handle CORS Preflight Request (OPTIONS)
+    if (req.method === "OPTIONS") {
+        context.res = {
+            status: 204, // No content response
+            headers: {
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+                "Access-Control-Allow-Headers": "Content-Type, Authorization"
+            }
+        };
+        return;
+    }
+
+    // Default response headers for CORS
+    const corsHeaders = {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type, Authorization"
+    };
+
+    const prompt = req.body?.prompt;
 
     if (!prompt) {
-        context.res = { status: 400, body: "Prompt is required" };
+        context.res = {
+            status: 400,
+            body: { error: "Prompt is required" },
+            headers: corsHeaders
+        };
         return;
     }
 
@@ -24,11 +49,10 @@ module.exports = async function (context, req) {
         );
 
         const detectedLanguage = languageResponse.data.choices[0].message.content.trim();
-
         let translatedPrompt = prompt;
 
+        // Step 2: Translate Non-English Text to English
         if (detectedLanguage !== "English") {
-            // Step 2: Translate Non-English Text to English
             const translationResponse = await axios.post(
                 `${process.env.OPENAI_ENDPOINT}/openai/deployments/gpt-4o/chat/completions?api-version=2024-02-15-preview`,
                 {
@@ -66,6 +90,7 @@ module.exports = async function (context, req) {
             { text: clarifiedPrompt, categories: ["Hate", "Sexual", "Violence", "SelfHarm"] },
             { headers: { "Ocp-Apim-Subscription-Key": process.env.CONTENT_SAFETY_API_KEY } }
         );
+
         const flaggedCategories = moderationResponse.data.categoriesAnalysis
             .filter((cat) => cat.severity > 1)
             .map((cat) => cat.category);
@@ -115,9 +140,14 @@ module.exports = async function (context, req) {
         // Step 6: Return Final Processed Prompt
         context.res = {
             status: 200,
-            body: jsonResponse
+            body: jsonResponse,
+            headers: corsHeaders
         };
     } catch (error) {
-        context.res = { status: 500, body: `Error processing request: ${error.message}` };
+        context.res = {
+            status: 500,
+            body: { error: `Error processing request: ${error.message}` },
+            headers: corsHeaders
+        };
     }
 };
