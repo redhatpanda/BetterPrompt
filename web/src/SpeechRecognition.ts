@@ -24,7 +24,7 @@ export default class SpeechRecognition {
     startSpeechRecognition(onResult: (text: string, isFinal?: boolean) => void) {
         // Session Started event
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        this.speechRecognizer.sessionStarted = (_s: sdk.Recognizer, e: sdk.SessionEventArgs) => {
+        this.speechRecognizer.sessionStarted = (_s: sdk.Recognizer, _e: sdk.SessionEventArgs) => {
             console.log('Session Started');
         };
 
