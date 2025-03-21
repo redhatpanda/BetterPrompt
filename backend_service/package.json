@@ -8,7 +8,6 @@
   "devDependencies": {
     "azure-functions-core-tools": "^4.x"
   },
-  "main": "index.js",
   "keywords": [],
   "author": "",
   "license": "ISC",

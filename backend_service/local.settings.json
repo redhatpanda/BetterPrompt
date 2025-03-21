@@ -10,8 +10,10 @@
     "AZURE_TEXT_ANALYTICS_ENDPOINT": "https://cl-text-analysis.cognitiveservices.azure.com/",
     "AZURE_TEXT_ANALYTICS_API_KEY": "3qcSc5LrXG3YDxyAoRnYqqmrbauH9F4MTVbGvdStMz0d3smGvFRsJQQJ99BCACYeBjFXJ3w3AAAaACOGP9wI",
     "AZURE_TRANSLATOR_ENDPOINT": "https://cl-translator-0.cognitiveservices.azure.com/",
-    "AZURE_TRANSLATOR_API_KEY": "BHxMNwxWyd3oEPkruyMhPeHplUN30Sq8w17Rw9OYAoWNCmieXB0wJQQJ99BCACHYHv6XJ3w3AAAbACOGNv78"
+    "AZURE_TRANSLATOR_API_KEY": "BHxMNwxWyd3oEPkruyMhPeHplUN30Sq8w17Rw9OYAoWNCmieXB0wJQQJ99BCACHYHv6XJ3w3AAAbACOGNv78",
+    "FUNCTIONS_WORKER_RUNTIME": "node"
   },
+  "ConnectionStrings": {},
   "Host": {
     "LocalHttpPort": 7071,
     "CORS": "*"

@@ -1,5 +1,4 @@
 {
-  "scriptFile": "../dist/AnalyzePrompt/index.js",
   "bindings": [
     {
       "authLevel": "function",
