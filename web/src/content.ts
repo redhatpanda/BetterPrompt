@@ -48,3 +48,25 @@ function observeShadowDOM(root: Document | ShadowRoot) {
 }
 
 observeShadowDOM(document);
+window.addEventListener("message", (event) => {
+  if (event.source !== window || event.data.type !== "FETCH_PROMPTS") {
+    return;
+  }
+
+  console.log("Content script received prompt:", event.data.prompt);
+
+  // Forward the message to the background script
+  chrome.runtime.sendMessage(
+    { action: "fetchRephrasedPrompts", prompt: event.data.prompt },
+    (response) => {
+      if (chrome.runtime.lastError) {
+        console.error("Error:", chrome.runtime.lastError);
+      } else {
+        console.log("Content script received response:", response);
+
+        // Send response back to Sidebar.tsx
+        window.postMessage({ type: "PROMPT_RESPONSE", data: response }, "*");
+      }
+    }
+  );
+});

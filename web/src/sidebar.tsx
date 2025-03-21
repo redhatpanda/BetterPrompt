@@ -11,7 +11,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import AutoFixHighIcon from "@mui/icons-material/AutoFixHigh";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import { motion } from "framer-motion";
-import axios from "axios";
+//import axios from "axios";
 import Microphone from "./Microphone";
 
 interface SidebarProps {
@@ -27,7 +27,7 @@ const Sidebar: React.FC<SidebarProps> = ({ open, onClose, text, textArea }) => {
   const [inputText, setInputText] = useState(text);
   const [transcript, setTranscript] = useState<string | null>(null);
   const [isFinal, setIsFinal] = useState(false);
-  const [inputFinal, setInputFinal] = useState("");
+  //const [inputFinal, setInputFinal] = useState("");
   console.log(transcript, isFinal);
 
   useEffect(() => {
@@ -36,33 +36,29 @@ const Sidebar: React.FC<SidebarProps> = ({ open, onClose, text, textArea }) => {
   }, [text]);
 
   const fetchRephrasedPrompts = async () => {
-
-    console.log("Chrome runtime",chrome.runtime);
     setLoading(true);
-    if (transcript && transcript.length > 0) {
-      console.log("First coniditon", transcript);
-      setInputFinal(transcript);
-    } else {
-      console.log("Second coniditon", inputText);
-      setInputFinal(inputText);
+    const finalInput = transcript && transcript.length > 0 ? transcript : inputText;
+  
+    if (!finalInput.trim()) {
+      setLoading(false);
+      return;
     }
-    try {
-      const response = await axios.post(
-        "https://cl-func-ai-app.azurewebsites.net/api/AnalyzePrompt?code=m1O0Wffba6Ga_FufbEzGl8xppUHflNClvx2uFoEdn9N1AzFu_NFfvw==",
-        {
-          prompt: inputFinal.length > 0 ? inputFinal : inputText,
-        }
-      );
-      setSuggestions([
-        response.data.rephrasedPrompt1,
-        response.data.rephrasedPrompt2,
-        response.data.rephrasedPrompt3,
-      ]);
-    } catch (error) {
-      console.error("Error fetching suggestions:", error);
-    }
-    setLoading(false);
+  
+    // Communicate with the content script
+    window.postMessage({ type: "FETCH_PROMPTS", prompt: finalInput }, "*");
+  
+    // Listen for the response
+    const handleResponse = (event: MessageEvent) => {
+      if (event.data.type === "PROMPT_RESPONSE") {
+        setSuggestions(event.data.data.suggestions || []);
+        setLoading(false);
+        window.removeEventListener("message", handleResponse); // Clean up event listener
+      }
+    };
+  
+    window.addEventListener("message", handleResponse);
   };
+  
 
   const handleUsePrompt = (prompt: string) => {
     if (!textArea) return;
