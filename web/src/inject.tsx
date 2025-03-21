@@ -3,17 +3,28 @@ import FloatingButton from "./FloatingButton";
 
 console.log("✅ Inject script running...");
 
-const getContentEditableText = (el: HTMLElement) => {
-  return el.innerText || "";
-};
-
 function injectUI() {
-  const textAreas = document.querySelectorAll("textarea, [contenteditable='true']");
+  let textAreas: Element[] = Array.from(document.querySelectorAll("textarea, [contenteditable='true']"));
 
   if (textAreas.length === 0) {
     console.warn("⚠️ No text areas found.");
     return;
   }
+
+  console.log("Before Filter", textAreas);
+
+  if (textAreas.length > 1) {
+    const hasTextarea = textAreas.some((el) => el.tagName.toLowerCase() === "textarea");
+    const hasContentEditable = textAreas.some(
+      (el) => el.getAttribute("contenteditable") === "true"
+    );
+
+    if (hasTextarea && hasContentEditable) {
+      textAreas = textAreas.filter((el) => el.tagName.toLowerCase() !== "textarea");
+    }
+  }
+
+  console.log("After Filter", textAreas);
 
   textAreas.forEach((textArea) => {
     if (!textArea.parentElement) return;
@@ -34,15 +45,14 @@ function injectUI() {
     const root = createRoot(buttonContainer);
     root.render(
       <FloatingButton
-        textArea={textArea as HTMLTextAreaElement}
-        getContentEditableText={textArea.hasAttribute("contenteditable") ? getContentEditableText : undefined}
+        textArea={textArea as HTMLElement}
+        getContentEditableText={textArea.hasAttribute("contenteditable") ? true : false}
       />
     );
   });
 }
 
 injectUI();
-
 
 const observer = new MutationObserver(() => injectUI());
 observer.observe(document.body, { childList: true, subtree: true });

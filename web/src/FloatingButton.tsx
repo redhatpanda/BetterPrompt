@@ -8,10 +8,13 @@ import { motion } from "framer-motion";
 
 interface FloatingButtonProps {
   textArea: HTMLTextAreaElement | HTMLElement;
-  getContentEditableText?: (el: HTMLElement) => string;
+  getContentEditableText: boolean;
 }
 
-const FloatingButton: React.FC<FloatingButtonProps> = ({ textArea, getContentEditableText }) => {
+const FloatingButton: React.FC<FloatingButtonProps> = ({
+  textArea,
+  getContentEditableText,
+}) => {
   const [open, setOpen] = useState(false);
   const [text, setText] = useState("");
   const [isTyping, setIsTyping] = useState(false);
@@ -41,10 +44,10 @@ const FloatingButton: React.FC<FloatingButtonProps> = ({ textArea, getContentEdi
   }, [textArea]);
 
   const handleOpen = () => {
-    const extractedText = getContentEditableText
-      ? getContentEditableText(textArea as HTMLElement)
-      : (textArea as HTMLTextAreaElement).value;
-
+    const extractedText =
+      getContentEditableText === true
+        ? (textArea as HTMLElement).innerText
+        : (textArea as HTMLTextAreaElement).value;
     setText(extractedText);
     setOpen(true);
   };
@@ -86,7 +89,10 @@ const FloatingButton: React.FC<FloatingButtonProps> = ({ textArea, getContentEdi
 
       <motion.div
         animate={isTyping ? { rotate: 360 } : { scale: [1, 1.1, 1] }}
-        transition={{ duration: isTyping ? 0.5 : 0.3, repeat: isTyping ? Infinity : 1 }}
+        transition={{
+          duration: isTyping ? 0.5 : 0.3,
+          repeat: isTyping ? Infinity : 1,
+        }}
         whileTap={{ scale: 0.9 }}
         whileHover={{ scale: 1.1 }}
         style={{
@@ -101,7 +107,12 @@ const FloatingButton: React.FC<FloatingButtonProps> = ({ textArea, getContentEdi
         </Fab>
       </motion.div>
 
-      <Sidebar open={open} onClose={() => setOpen(false)} text={text} textArea={textArea} />
+      <Sidebar
+        open={open}
+        onClose={() => setOpen(false)}
+        text={text}
+        textArea={textArea}
+      />
     </>
   );
 };

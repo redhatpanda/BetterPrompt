@@ -36,6 +36,8 @@ const Sidebar: React.FC<SidebarProps> = ({ open, onClose, text, textArea }) => {
   }, [text]);
 
   const fetchRephrasedPrompts = async () => {
+
+    console.log("Chrome runtime",chrome.runtime);
     setLoading(true);
     if (transcript && transcript.length > 0) {
       console.log("First coniditon", transcript);
