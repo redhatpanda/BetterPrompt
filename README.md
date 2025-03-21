@@ -2,6 +2,67 @@
 
 This project is an extension using Azure Functions and JavaScript. It consists of a backend service that processes speech and text using various Azure AI services and a frontend web application.
 
+# Project Overview
+ 
+## 📌 Overview
+ 
+**BetterPrompt** is a smart Chrome extension built to enhance digital communication by making user input clearer, more concise, and contextually accurate—whether you're typing, speaking, or on the move. Designed for ease of use and accessibility, BetterPrompt empowers users from all backgrounds, including non-native speakers and individuals with writing disabilities, to communicate more effectively across any website.
+ 
+Built with **React** and **Material-UI (MUI)** for a sleek, responsive interface, and powered by **Azure Cognitive Services**, the extension provides real-time grammar correction, translation, speech-to-text input, and prompt optimization. BetterPrompt integrates directly into text input fields on any webpage and improves both the quality of search queries and AI interactions—helping users get better results, faster.
+ 
+---
+ 
+## 🧠 Key Capabilities
+
+- **Grammar & Clarity Enhancements:** Real-time grammar correction and sentence restructuring.
+
+- **Prompt Optimization:** Refines prompts for search engines and AI tools like ChatGPT.
+
+- **Speech-to-Text Input:** Enables hands-free communication through Azure Speech.
+
+- **Language Translation:** Accurately translates input to and from multiple languages.
+
+- **Content Moderation:** Flags harmful, biased, or sensitive content and suggests ethical alternatives.
+
+- **Accessible UI:** Clean, responsive React + MUI interface that overlays any text field on a webpage.
+---
+
+## 🎯 Goals
+- Help users communicate clearly, quickly, and effectively—regardless of language fluency or ability.
+
+- Make digital spaces more accessible to users with writing or speech-related disabilities.
+
+- Support global, multilingual communication with accurate translation and optimization.
+
+- Improve the quality of user inputs for AI interactions and search results.
+
+- Promote safe, ethical, and inclusive online communication through intelligent moderation.
+ 
+---
+
+## 🔭 Vision
+ 
+BetterPrompt aims to evolve into a universal communication assistant that:
+
+- Integrates with virtual assistants, messaging tools, and productivity platforms.
+
+- Offers tone adjustment, prompt intent detection, and smart writing suggestions.
+
+- Becomes a default accessibility and clarity enhancer for the web and mobile environments.
+ 
+---
+ 
+## 🛠 Tech Stack
+ 
+- **Frontend:** React, Material-UI (MUI)
+
+- **Browser Platform:** Chrome Extension API
+
+- **Speech & Text Processing:** Azure Cognitive Services (Text Analytics, Translator, Speech-to-Text)
+
+- **Backend (Planned):** Azure Functions or Node.js for processing user input
+ 
+
 ## Project Structure
 
 ```
