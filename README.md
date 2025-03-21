@@ -51,6 +51,14 @@ BetterPrompt aims to evolve into a universal communication assistant that:
 - Becomes a default accessibility and clarity enhancer for the web and mobile environments.
  
 ---
+
+## Presentation and Demo Link
+
+[BetterPrompt Presentation Link](https://drive.google.com/file/d/1r2GbSoYUa7ijZnW_gVmjAc_aBp5JK__a/view?usp=sharing)
+
+[BetterPrompt Demo Link](https://drive.google.com/file/d/10wOT12Q-nWJXct3e5PRjccv3W9aeX7zV/view?usp=sharing)
+
+---
  
 ## 🛠 Tech Stack
  
