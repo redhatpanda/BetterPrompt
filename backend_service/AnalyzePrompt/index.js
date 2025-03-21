@@ -1,8 +1,12 @@
 const axios = require("axios");
 
 module.exports = async function (context, req) {
-    // Handle CORS Preflight Request (OPTIONS)
+    // ✅ Log incoming request method
+    context.log("🔹 Received request:", req.method);
+
+    // ✅ Handle CORS Preflight (OPTIONS Request)
     if (req.method === "OPTIONS") {
+        context.log("🔹 Handling OPTIONS preflight request.");
         context.res = {
             status: 204, // No content response
             headers: {
@@ -14,7 +18,7 @@ module.exports = async function (context, req) {
         return;
     }
 
-    // Default response headers for CORS
+    // ✅ Default CORS Headers for every response
     const corsHeaders = {
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",
@@ -22,6 +26,12 @@ module.exports = async function (context, req) {
         "Access-Control-Allow-Headers": "Content-Type, Authorization"
     };
 
+    // ✅ Check if the request has a body
+    if (!req.body) {
+        context.log("❌ Request body is missing!");
+        context.res = { status: 400, body: { error: "Request body is missing!" }, headers: corsHeaders };
+        return;
+    }
     const prompt = req.body?.prompt;
 
     if (!prompt) {
