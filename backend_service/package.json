@@ -8,7 +8,6 @@
   "devDependencies": {
     "azure-functions-core-tools": "^4.x"
   },
-  "main": "index.js",
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -17,7 +16,7 @@
     "@azure/storage-blob": "^12.26.0",
     "axios": "^1.8.3",
     "dotenv": "^16.4.7",
-    "microsoft-cognitiveservices-speech-sdk": "^1.42.0",
+    "microsoft-cognitiveservices-speech-sdk": "^1.43.0",
     "multer": "^1.4.5-lts.2",
     "multiparty": "^4.2.3",
     "node-fetch": "^3.3.2"
