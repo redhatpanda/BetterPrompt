@@ -1,10 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { Drawer, Box, Typography, IconButton, Button } from "@mui/material";
+import {
+  Drawer,
+  Box,
+  Typography,
+  IconButton,
+  Button,
+  Grid2,
+} from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import AutoFixHighIcon from "@mui/icons-material/AutoFixHigh";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import { motion } from "framer-motion";
 import axios from "axios";
+import Microphone from "./Microphone";
 
 interface SidebarProps {
   open: boolean;
@@ -17,17 +25,32 @@ const Sidebar: React.FC<SidebarProps> = ({ open, onClose, text, textArea }) => {
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const [inputText, setInputText] = useState(text);
+  const [transcript, setTranscript] = useState("");
+  const [isFinal, setIsFinal] = useState(false);
+  const [inputFinal,setInputFinal]= useState("");
+  console.log(transcript, isFinal);
 
   useEffect(() => {
+
     setInputText(text);
+    setTranscript("");
+
   }, [text]);
 
   const fetchRephrasedPrompts = async () => {
     setLoading(true);
+    if(transcript.length>0)
+      setInputFinal(transcript)
+    else
+    setInputFinal(inputText);
     try {
-      const response = await axios.post("https://cl-ai-app.azurewebsites.net/api/AnalyzePrompt?code=Y9Fo-pIcqw-3iEcSwr1PnJNw1-z76J_1QOqqcDc7FyvdAzFunAj4Vw==", {
-        prompt: inputText,
-      });
+      
+      const response = await axios.post(
+        "https://cl-ai-app.azurewebsites.net/api/AnalyzePrompt?code=Y9Fo-pIcqw-3iEcSwr1PnJNw1-z76J_1QOqqcDc7FyvdAzFunAj4Vw==",
+        {
+          prompt: inputFinal,
+        }
+      );
       setSuggestions([
         response.data.rephrasedPrompt1,
         response.data.rephrasedPrompt2,
@@ -41,7 +64,7 @@ const Sidebar: React.FC<SidebarProps> = ({ open, onClose, text, textArea }) => {
 
   const handleUsePrompt = (prompt: string) => {
     if (!textArea) return;
-    
+
     if (textArea instanceof HTMLTextAreaElement) {
       textArea.value = prompt;
     } else {
@@ -59,7 +82,7 @@ const Sidebar: React.FC<SidebarProps> = ({ open, onClose, text, textArea }) => {
         sx={{
           width: 400,
           p: 3,
-          background: "rgba(20, 20, 20, 0.9)", 
+          background: "rgba(20, 20, 20, 0.9)",
           backdropFilter: "blur(15px)",
           borderRadius: "15px",
           border: "1px solid rgba(255, 255, 255, 0.2)",
@@ -96,32 +119,38 @@ const Sidebar: React.FC<SidebarProps> = ({ open, onClose, text, textArea }) => {
           <AutoFixHighIcon />
           Enhance Your Prompt
         </Typography>
-
-        <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3 }}
-          style={{
-            background: "rgba(255, 255, 255, 0.1)",
-            padding: "10px",
-            borderRadius: "10px",
-            border: "1px solid rgba(255, 255, 255, 0.2)",
-            marginBottom: "15px",
-          }}
-        >
-          <Typography
-            variant="body1"
-            sx={{
-              color: "#ddd",
-              fontSize: "14px",
-              whiteSpace: "pre-wrap",
-              wordBreak: "break-word",
+        <Grid2  container flexDirection={"row"} justifyContent={"space-around"}>
+          <Grid2 size={10}>
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3 }}
+            style={{
+              background: "rgba(255, 255, 255, 0.1)",
+              padding: "10px",
+              borderRadius: "10px",
+              border: "1px solid rgba(255, 255, 255, 0.2)",
+              marginBottom: "15px",
+              flex:1
             }}
           >
-            {inputText || "Type your prompt here..."}
-          </Typography>
-        </motion.div>
-
+            <Typography
+              variant="body1"
+              sx={{
+                color: "#ddd",
+                fontSize: "14px",
+                whiteSpace: "pre-wrap",
+                wordBreak: "break-word",
+              }}
+            >
+              {transcript|| inputText || "Type your prompt here..."}
+            </Typography>
+          </motion.div>
+          </Grid2>
+          <Grid2  size={2}>
+          <Microphone setTranscript={setTranscript} setIsFinal={setIsFinal} />
+          </Grid2>
+        </Grid2>
 
         <Button
           variant="contained"
@@ -142,7 +171,14 @@ const Sidebar: React.FC<SidebarProps> = ({ open, onClose, text, textArea }) => {
         </Button>
 
         {loading ? (
-          <Typography sx={{ mt: 3, textAlign: "center", fontStyle: "italic", color: "#aaa" }}>
+          <Typography
+            sx={{
+              mt: 3,
+              textAlign: "center",
+              fontStyle: "italic",
+              color: "#aaa",
+            }}
+          >
             ✨ Generating better prompts...
           </Typography>
         ) : (
@@ -160,12 +196,21 @@ const Sidebar: React.FC<SidebarProps> = ({ open, onClose, text, textArea }) => {
                 boxShadow: "0px 2px 6px rgba(0, 0, 0, 0.2)",
               }}
             >
-              <Typography variant="body1" sx={{ color: "#fff", fontWeight: "500" }}>
+              <Typography
+                variant="body1"
+                sx={{ color: "#fff", fontWeight: "500" }}
+              >
                 {prompt}
               </Typography>
 
-              <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 1, mt: 2 }}>
-
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "flex-end",
+                  gap: 1,
+                  mt: 2,
+                }}
+              >
                 <Button
                   size="small"
                   variant="outlined"

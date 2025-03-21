@@ -37,7 +37,7 @@ function Microphone({
             <IconButton
                 aria-label="mic"
                 style={{ backgroundColor: '#3086D5', color: 'white' }}
-                size="large"
+                size="medium"
                 onClick={() => {
                     setIsListening(!isListening)}}
             >
