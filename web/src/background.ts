@@ -3,7 +3,7 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
     fetchRephrasedPrompts(message.prompt)
       .then((suggestions) => sendResponse({ success: true, suggestions }))
       .catch((error) => sendResponse({ success: false, error: error.message }));
-    return true; // Keeps the message channel open for async response
+    return true;
   }
 });
 

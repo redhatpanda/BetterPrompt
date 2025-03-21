@@ -1,7 +1,7 @@
 import { createRoot } from "react-dom/client";
 import FloatingButton from "./FloatingButton";
 
-console.log("✅ Inject script running...");
+console.log("Inject script running...");
 
 function injectUI() {
   let textAreas: Element[] = Array.from(document.querySelectorAll("textarea, [contenteditable='true']"));

@@ -22,30 +22,24 @@ export default class SpeechRecognition {
     }
 
     startSpeechRecognition(onResult: (text: string, isFinal?: boolean) => void) {
-        // Session Started event
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         this.speechRecognizer.sessionStarted = (_s: sdk.Recognizer, _e: sdk.SessionEventArgs) => {
             console.log('Session Started');
             
         };
 
-        // When recognizing (while listening)
         this.speechRecognizer.recognizing = (_s: sdk.Recognizer, e: sdk.SpeechRecognitionEventArgs) => {
-            // This will trigger while recognition is ongoing
             console.log('Recognizing: ', e.result.text);
             onResult(e.result.text, false); 
         };
 
-        // When recognized (final result)
         this.speechRecognizer.recognized = (_s: sdk.Recognizer, e: sdk.SpeechRecognitionEventArgs) => {
             if (e.result.reason === sdk.ResultReason.RecognizedSpeech) {
-                // If speech is successfully recognized
                 console.log('Final Recognized Speech: ', e.result.text);
                 onResult(e.result.text, false); 
             }
         };
 
-        // Handle cancellation (if any error occurs)
         this.speechRecognizer.canceled = (_s: sdk.Recognizer, e: sdk.SpeechRecognitionCanceledEventArgs) => {
             console.error('Recognition canceled: ', e.errorDetails);
             onResult('Error in recognition: ' + e.errorDetails); 
@@ -67,7 +61,6 @@ export default class SpeechRecognition {
             }
         );
 
-        // Session stopped event
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         this.speechRecognizer.sessionStopped = (_s: sdk.Recognizer, _e: any) => {
             console.log('Session Stopped');

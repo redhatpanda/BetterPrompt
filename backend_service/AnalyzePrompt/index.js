@@ -1,12 +1,8 @@
 const axios = require("axios");
 
 module.exports = async function (context, req) {
-   
-    context.log("🔹 Received request:", req.method);
 
-    
     if (req.method === "OPTIONS") {
-        context.log("🔹 Handling OPTIONS preflight request.");
         context.res = {
             status: 204, 
             headers: {
@@ -28,7 +24,7 @@ module.exports = async function (context, req) {
 
     
     if (!req.body) {
-        context.log("❌ Request body is missing!");
+        context.log("Request body is missing!");
         context.res = { status: 400, body: { error: "Request body is missing!" }, headers: corsHeaders };
         return;
     }
@@ -105,7 +101,6 @@ module.exports = async function (context, req) {
             .filter((cat) => cat.severity > 1)
             .map((cat) => cat.category);
 
-        // Step 5: Final Rephrasing & Refinement
         let rephraseInstruction = `Ensure this prompt is clear, specific, and well-defined. Remove any NSFW, biased, racist, or inappropriate content while keeping the meaning intact.
         Return the output in this exact JSON format:
         {

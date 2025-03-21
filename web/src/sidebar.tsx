@@ -25,7 +25,6 @@ const Sidebar: React.FC<SidebarProps> = ({ open, onClose, text, textArea }) => {
   const [loading, setLoading] = useState(false);
   const [inputText, setInputText] = useState(text);
   const [transcript, setTranscript] = useState<string | null>(null);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_isFinal, setIsFinal] = useState(false);
 
   useEffect(() => {
@@ -50,7 +49,7 @@ const Sidebar: React.FC<SidebarProps> = ({ open, onClose, text, textArea }) => {
       if (event.data.type === "PROMPT_RESPONSE") {
         setSuggestions(event.data.data.suggestions || []);
         setLoading(false);
-        window.removeEventListener("message", handleResponse); // Clean up event listener
+        window.removeEventListener("message", handleResponse);
       }
     };
   
@@ -100,7 +99,6 @@ const Sidebar: React.FC<SidebarProps> = ({ open, onClose, text, textArea }) => {
           <CloseIcon />
         </IconButton>
 
-        {/* ✨ Title */}
         <Typography
           variant="h5"
           gutterBottom

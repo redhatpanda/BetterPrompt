@@ -23,7 +23,7 @@ function handleInput(event: Event) {
   if (target && (target.tagName === "INPUT" || target.tagName === "TEXTAREA")) {
 
     chrome.runtime.sendMessage({ type: "TEXT_INPUT", text: target.value }, (response) => {
-      console.log("📩 Response from background:", response);
+      console.log("Response from background:", response);
     });
   }
 }
