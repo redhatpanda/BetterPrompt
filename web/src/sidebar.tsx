@@ -25,30 +25,30 @@ const Sidebar: React.FC<SidebarProps> = ({ open, onClose, text, textArea }) => {
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const [inputText, setInputText] = useState(text);
-  const [transcript, setTranscript] = useState("");
+  const [transcript, setTranscript] = useState<string | null>(null);
   const [isFinal, setIsFinal] = useState(false);
-  const [inputFinal,setInputFinal]= useState("");
+  const [inputFinal, setInputFinal] = useState("");
   console.log(transcript, isFinal);
 
   useEffect(() => {
-
     setInputText(text);
-    setTranscript("");
-
+    setTranscript(null);
   }, [text]);
 
   const fetchRephrasedPrompts = async () => {
     setLoading(true);
-    if(transcript.length>0)
-      setInputFinal(transcript)
-    else
-    setInputFinal(inputText);
+    if (transcript && transcript.length > 0) {
+      console.log("First coniditon", transcript);
+      setInputFinal(transcript);
+    } else {
+      console.log("Second coniditon", inputText);
+      setInputFinal(inputText);
+    }
     try {
-      
       const response = await axios.post(
-        "https://cl-ai-app.azurewebsites.net/api/AnalyzePrompt?code=Y9Fo-pIcqw-3iEcSwr1PnJNw1-z76J_1QOqqcDc7FyvdAzFunAj4Vw==",
+        "https://cl-func-ai-app.azurewebsites.net/api/AnalyzePrompt?code=m1O0Wffba6Ga_FufbEzGl8xppUHflNClvx2uFoEdn9N1AzFu_NFfvw==",
         {
-          prompt: inputFinal,
+          prompt: inputFinal.length > 0 ? inputFinal : inputText,
         }
       );
       setSuggestions([
@@ -119,36 +119,36 @@ const Sidebar: React.FC<SidebarProps> = ({ open, onClose, text, textArea }) => {
           <AutoFixHighIcon />
           Enhance Your Prompt
         </Typography>
-        <Grid2  container flexDirection={"row"} justifyContent={"space-around"}>
+        <Grid2 container flexDirection={"row"} justifyContent={"space-around"}>
           <Grid2 size={10}>
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3 }}
-            style={{
-              background: "rgba(255, 255, 255, 0.1)",
-              padding: "10px",
-              borderRadius: "10px",
-              border: "1px solid rgba(255, 255, 255, 0.2)",
-              marginBottom: "15px",
-              flex:1
-            }}
-          >
-            <Typography
-              variant="body1"
-              sx={{
-                color: "#ddd",
-                fontSize: "14px",
-                whiteSpace: "pre-wrap",
-                wordBreak: "break-word",
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3 }}
+              style={{
+                background: "rgba(255, 255, 255, 0.1)",
+                padding: "10px",
+                borderRadius: "10px",
+                border: "1px solid rgba(255, 255, 255, 0.2)",
+                marginBottom: "15px",
+                flex: 1,
               }}
             >
-              {transcript|| inputText || "Type your prompt here..."}
-            </Typography>
-          </motion.div>
+              <Typography
+                variant="body1"
+                sx={{
+                  color: "#ddd",
+                  fontSize: "14px",
+                  whiteSpace: "pre-wrap",
+                  wordBreak: "break-word",
+                }}
+              >
+                {transcript || inputText || "Type your prompt here..."}
+              </Typography>
+            </motion.div>
           </Grid2>
-          <Grid2  size={2}>
-          <Microphone setTranscript={setTranscript} setIsFinal={setIsFinal} />
+          <Grid2 size={2}>
+            <Microphone setTranscript={setTranscript} setIsFinal={setIsFinal} />
           </Grid2>
         </Grid2>
 
